@@ -8,6 +8,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,6 +20,7 @@ import javafx.util.Duration;
 
 public class Game extends Application {
     Pane root = new Pane();
+    Scene scene;
 
     AnimationTimer timer;
 
@@ -42,6 +44,7 @@ public class Game extends Application {
         points.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         points.setFill(Color.WHITE);
         root.getChildren().addAll(lives, points);
+//        root.setBackground(new Background());
 
         //start moving of monsters
         logic.monster.dotR.setLayoutX(0);
@@ -72,7 +75,7 @@ public class Game extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        Scene scene = new Scene(root, 1440, 900);
+        scene = new Scene(root);
         scene.setFill(Color.NAVY); // background
 
         // moving player
