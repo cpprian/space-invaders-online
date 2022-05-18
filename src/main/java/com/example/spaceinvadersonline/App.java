@@ -52,6 +52,9 @@ public class App extends Application {
         //create monsters
         logic.monster.addMonsters(root);
 
+        // create houses
+        logic.house.addHouses(root);
+
         timer = new AnimationTimer() {
             @Override
             public void handle(long arg0) {
@@ -69,15 +72,15 @@ public class App extends Application {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        Scene scene = new Scene(root, 1500, 1000);
-        scene.setFill(Color.BLACK); // background
+        Scene scene = new Scene(root, 1440, 900);
+        scene.setFill(Color.NAVY); // background
 
         // moving player
         scene.setOnKeyPressed(e-> {
-            if(e.getCode() == KeyCode.RIGHT) {
+            if(e.getCode() == KeyCode.RIGHT && logic.player.player.getLayoutX() != 1250) {
                 logic.player.player.setLayoutX(logic.player.player.getLayoutX() + 5);
             }
-            if(e.getCode() == KeyCode.LEFT) {
+            if(e.getCode() == KeyCode.LEFT && logic.player.player.getLayoutX() != 0) {
                 logic.player.player.setLayoutX(logic.player.player.getLayoutX() - 5);
             }
             if(e.getCode() == KeyCode.SPACE) {
@@ -85,9 +88,9 @@ public class App extends Application {
             }
         });
 
-        // glue everything together
         primaryStage.setScene(scene);
         primaryStage.setTitle("Space Invaders");
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

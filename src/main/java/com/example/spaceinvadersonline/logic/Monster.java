@@ -17,27 +17,39 @@ public class Monster {
     public Circle dotR = new Circle();
     boolean toRight = true;
 
+    static final private String monster1 = "file:src/main/resources/com/example/spaceinvadersonline/monster/k1.png";
+    static final private String monster2 = "file:src/main/resources/com/example/spaceinvadersonline/monster/k2.png";
+    static final private String monster3 = "file:src/main/resources/com/example/spaceinvadersonline/monster/k3.png";
+
     public void addMonsters(Pane root) {
-        for(int i = 0, w = 40; i < 6; i++, w += 70) {
-            monsters.add(monster(w, 50));
+        for(int i = 0, w = 40; i < 10; i++, w += 100) {
+            monsters.add(monster(w, 100, monster3));
             root.getChildren().add(monsters.get(i));
         }
-        for(int i = 0, w = 40; i < 6; i++, w += 70) {
-            monsters.add(monster(w, 120));
-            root.getChildren().add(monsters.get(i + 6));
+        for(int i = 0, w = 40; i < 10; i++, w += 100) {
+            monsters.add(monster(w, 200, monster2));
+            root.getChildren().add(monsters.get(i + 10));
         }
-        for(int i = 0, w = 40; i < 6; i++, w += 70) {
-            monsters.add(monster(w, 190));
-            root.getChildren().add(monsters.get(i + 12));
+        for(int i = 0, w = 40; i < 10; i++, w += 100) {
+            monsters.add(monster(w, 300, monster2));
+            root.getChildren().add(monsters.get(i + 20));
+        }
+        for(int i = 0, w = 40; i < 10; i++, w += 100) {
+            monsters.add(monster(w, 400, monster1));
+            root.getChildren().add(monsters.get(i + 30));
+        }
+        for(int i = 0, w = 40; i < 10; i++, w += 100) {
+            monsters.add(monster(w, 500, monster1));
+            root.getChildren().add(monsters.get(i + 40));
         }
     }
 
-    public ImageView monster(double x, double y) {
-        ImageView i = new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/k2.png"));
+    public ImageView monster(double x, double y, String img) {
+        ImageView i = new ImageView(new Image(img));
         i.setLayoutX(x);
         i.setLayoutY(y);
-        i.setFitHeight(50);
-        i.setFitWidth(50);
+        i.setFitHeight(75);
+        i.setFitWidth(75);
         return i;
     }
 
@@ -60,37 +72,38 @@ public class Monster {
     public void monstersShoot(Pane root) {
         int getShootingMonsterIndex = rand(0, monsters.size() - 1);
         shoots.add(shoot(monsters.get(getShootingMonsterIndex).getLayoutX() + 25, monsters.get(getShootingMonsterIndex).getLayoutY() + 25));
-        root.getChildren().add((Node) shoots.get(shoots.size() - 1));
+        root.getChildren().add(shoots.get(shoots.size() - 1));
     }
 
     public void isMonsterDestroyed(Pane root, Player player, int numPoints, Text points) {
-        for(int i = 0; i < player.shoots.size(); i ++) {
+        for(int i = 0; i < player.shoots.size(); i++) {
             for(int j = 0; j < monsters.size(); j++) {
-                if(        ((player.shoots.get(i).getLayoutX() > monsters.get(j).getLayoutX())
-                        && ((player.shoots.get(i).getLayoutX() < monsters.get(j).getLayoutX() + 50))
-                        && ((player.shoots.get(i).getLayoutY() > monsters.get(j).getLayoutY())
-                        && ((player.shoots.get(i).getLayoutY() < monsters.get(j).getLayoutY() + 50))))) {
+                if(        player.shoots.get(i).getLayoutX() > monsters.get(j).getLayoutX()
+                        && player.shoots.get(i).getLayoutX() < monsters.get(j).getLayoutX() + 75
+                        && player.shoots.get(i).getLayoutY() > monsters.get(j).getLayoutY()
+                        && player.shoots.get(i).getLayoutY() < monsters.get(j).getLayoutY() + 75) {
                     root.getChildren().remove(monsters.get(j));
                     monsters.remove(j);
                     root.getChildren().remove(player.shoots.get(i));
                     player.shoots.remove(i);
                     numPoints += 100;
                     points.setText("Points: " + numPoints);
+                    break;
                 }
             }
         }
     }
 
-    public void monstersMove() {
+    public void monstersMove(Player player) {
         double speed;
         if(toRight) {
-            speed = 0.6;
+            speed = 4;
         }
         else {
-            speed = - 0.6;
+            speed = -4;
         }
 
-        if(dotR.getLayoutX() >= 40) {
+        if(dotR.getLayoutX() >= 250) {
             toRight = false;
             for (ImageView monster : monsters) {
                 monster.setLayoutY(monster.getLayoutY() + 8);
@@ -105,6 +118,9 @@ public class Monster {
 
         for (ImageView monster : monsters) {
             monster.setLayoutX(monster.getLayoutX() + speed);
+            if (monster.getLayoutY() == 800) {
+                player.numLives = 0;
+            }
         }
         dotR.setLayoutX(dotR.getLayoutX() + speed);
     }

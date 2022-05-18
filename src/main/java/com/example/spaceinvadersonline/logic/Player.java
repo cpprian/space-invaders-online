@@ -24,9 +24,9 @@ public class Player {
     }
 
     public ImageView player() {
-        ImageView i = new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/s2.png"));
+        ImageView i = new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"));
         i.setLayoutX(225);
-        i.setLayoutY(650);
+        i.setLayoutY(950);
         i.setFitHeight(50);
         i.setFitWidth(50);
         return i;
@@ -41,7 +41,7 @@ public class Player {
     }
 
     public void playerShoot(Pane root, double x) {
-        shoots.add(shoot((x + 25), 650));
+        shoots.add(shoot((x + 25), 950));
         root.getChildren().add(shoots.get(shoots.size() - 1));
     }
 
@@ -58,7 +58,8 @@ public class Player {
     }
 
     public void isPlayerDestroyed(Monster monster, Text lives) {
-        for(int i = 0; i < monster.shoots.size(); i ++) {
+        // shoots
+        for(int i = 0; i < monster.shoots.size(); i++) {
             if(        ((monster.shoots.get(i).getLayoutX() > player.getLayoutX())
                     && ((monster.shoots.get(i).getLayoutX() < player.getLayoutX() + 50))
                     && ((monster.shoots.get(i).getLayoutY() > player.getLayoutY())
@@ -66,6 +67,19 @@ public class Player {
                 player.setLayoutX(225);
                 numLives -= 1;
                 lives.setText("Lives: " + numLives);
+            }
+        }
+
+        // monsters
+        for (int i = 0; i < monster.monsters.size(); i++) {
+            if (    monster.monsters.get(i).getLayoutX() > player.getLayoutX()
+                    && monster.monsters.get(i).getLayoutX() < player.getLayoutX() + 50
+                    && monster.monsters.get(i).getLayoutY() > player.getLayoutY()
+                    && monster.monsters.get(i).getLayoutY() < player.getLayoutY() + 50
+            ) {
+                numLives -= 1;
+                lives.setText("Livex: " + numLives);
+                break;
             }
         }
     }
@@ -94,7 +108,7 @@ public class Player {
             text.setFill(Color.RED);
             text.setStrokeWidth(3);
             text.setStroke(Color.CRIMSON);
-            text.setText("LOST");
+            text.setText("YOU LOSE");
             root.getChildren().add(text);
             timer.stop();
         }
