@@ -16,27 +16,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class App extends Application {
-    private Stage stage;
+    private Stage stage = new Stage();
 
     @FXML
-    protected void onStartButtonClick(ActionEvent event) throws IOException {
+    protected void onStartButtonClick(ActionEvent event) throws Exception {
         Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("game.fxml")),
                 null, new JavaFXBuilderFactory());
-        Scene scene = new Scene(page, 1440, 900);
+        Scene scene = new Scene(page);
         this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.stage.setScene(scene);
         this.stage.show();
     }
 
-    @FXML
-    protected void onOptionsButtonClick(ActionEvent event) throws IOException {
-        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("options.fxml")),
-                null, new JavaFXBuilderFactory());
-        Scene scene = new Scene(page, 1440, 900);
-        this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        this.stage.setScene(scene);
-        this.stage.show();
-    }
+//    @FXML
+//    protected void onOptionsButtonClick(ActionEvent event) throws IOException {
+//        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("options.fxml")),
+//                null, new JavaFXBuilderFactory());
+//        Scene scene = new Scene(page);
+//        this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//        this.stage.setFullScreen(true);
+//        this.stage.setScene(scene);
+//        this.stage.show();
+//    }
 
     @Override
     public void start(Stage primaryStage) {

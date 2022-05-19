@@ -5,12 +5,13 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.spaceinvadersonline.App">
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.spaceinvadersonline.App">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
     <Button text="START" onAction="#onStartButtonClick"/>
-    <Button text="OPTIONS" onAction="#onOptionsButtonClick"/>
-</VBox>
+<!--    <Button text="OPTIONS" onAction="#onOptionsButtonClick"/>-->
+</AnchorPane>
