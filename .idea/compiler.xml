@@ -11,6 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo" target="17" />
+      <module name="space-invaders-online" target="17" />
       <module name="SpaceInvadersOnline" target="17" />
     </bytecodeTargetLevel>
   </component>
