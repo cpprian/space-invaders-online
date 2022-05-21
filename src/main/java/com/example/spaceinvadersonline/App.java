@@ -8,6 +8,10 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,10 +26,13 @@ public class App extends Application {
     protected void onStartButtonClick(ActionEvent event) throws Exception {
         Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("game.fxml")),
                 null, new JavaFXBuilderFactory());
-        Scene scene = new Scene(page);
+        Scene scene = new Scene(page,1700, 1010);
+        scene.setFill(Color.BLACK);
+        //scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("thelook.css")).toExternalForm());
         this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         this.stage.setScene(scene);
         this.stage.show();
+        this.stage.centerOnScreen();
     }
 
 //    @FXML
@@ -44,9 +51,10 @@ public class App extends Application {
         try {
             this.stage = primaryStage;
             Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));
-            Scene scene = new Scene(page, 1440, 900);
+            Scene scene = new Scene(page, 1700, 1010);
             this.stage.setScene(scene);
             this.stage.show();
+            this.stage.centerOnScreen();
         } catch (Exception e) {
             logError(e);
         }

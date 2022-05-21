@@ -1,0 +1,10 @@
+.rectangle-modify {
+  	/* Change Color */
+	-fx-fill: black;
+
+  	/* Change Color outlines */
+	-fx-stroke: yellow;
+
+  	/* Change width outlines */
+	-fx-stroke-width: 10;
+	}
