@@ -25,7 +25,7 @@ public class Player {
 
     public ImageView player() {
         ImageView i = new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"));
-        i.setLayoutX(225);
+        i.setLayoutX(220);
         i.setLayoutY(950);
         i.setFitHeight(50);
         i.setFitWidth(50);
