@@ -29,8 +29,6 @@ import java.util.ResourceBundle;
 public class Game implements Initializable {
     @FXML
     private Pane rootPane;
-    Scene scene;
-
     AnimationTimer timer;
 
     @Override
@@ -117,7 +115,9 @@ public class Game implements Initializable {
         timeline.play();
 
         rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+
         // moving player
+        rootPane.setFocusTraversable(true);
         rootPane.setOnKeyPressed(e-> {
             if(e.getCode() == KeyCode.RIGHT && logic.player.player.getLayoutX() != 1250) {
                 logic.player.player.setLayoutX(logic.player.player.getLayoutX() + 5);
