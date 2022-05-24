@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane minHeight="1010.0" minWidth="1700.0" prefHeight="483.0" prefWidth="573.0" style="-fx-background-color: black" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.spaceinvadersonline.Enter">
+
+    <center>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <TextField alignment="CENTER" maxWidth="272.0" minHeight="50.0" promptText="Enter your name"/>
+            <Button onAction="#enterGame" prefHeight="50.0" prefWidth="100.0" text="PLAY" />
+        </VBox>
+    </center>
+
+
+</BorderPane>

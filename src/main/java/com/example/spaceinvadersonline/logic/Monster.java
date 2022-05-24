@@ -97,10 +97,10 @@ public class Monster {
     public void monstersMove(Player player) {
         double speed;
         if(toRight) {
-            speed = 4;
+            speed = 0.6;
         }
         else {
-            speed = -4;
+            speed = -0.6;
         }
 
         if(dotR.getLayoutX() >= 250) {

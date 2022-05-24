@@ -19,13 +19,13 @@ public class Player {
     public ImageView player;
     int numLives = 3;
 
-    public Player() {
-        player = player();
+    public Player(int x) {
+        player = player(x);
     }
 
-    public ImageView player() {
+    public ImageView player(int x) {
         ImageView i = new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"));
-        i.setLayoutX(220);
+        i.setLayoutX(x);
         i.setLayoutY(950);
         i.setFitHeight(50);
         i.setFitWidth(50);

@@ -9,12 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +20,7 @@ public class App extends Application {
 
     @FXML
     protected void onStartButtonClick(ActionEvent event) throws Exception {
-        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("game.fxml")),
+        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("enter.fxml")),
                 null, new JavaFXBuilderFactory());
         Scene scene = new Scene(page,1700, 1010);
         scene.setFill(Color.BLACK);
