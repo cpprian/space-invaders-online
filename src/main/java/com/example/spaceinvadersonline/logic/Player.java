@@ -16,15 +16,19 @@ import java.util.List;
 
 public class Player {
     List<Circle> shoots = new ArrayList<>();
+    private static final List<ImageView> playerShips = new ArrayList<>(List.of(
+        new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s1.png")),
+        new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"))
+    ));
     public ImageView player;
     int numLives = 3;
 
-    public Player(int x) {
-        player = player(x);
+    public Player(int x, int whichPlayer) {
+        player = player(x, whichPlayer);
     }
 
-    public ImageView player(int x) {
-        ImageView i = new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"));
+    public ImageView player(int x, int whichPlayer) {
+        ImageView i = playerShips.get(whichPlayer);
         i.setLayoutX(x);
         i.setLayoutY(950);
         i.setFitHeight(50);

@@ -20,9 +20,13 @@ public class Server {
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(socket);
-                Thread thread = new Thread(clientHandler);
-                thread.start();
-                logger.log(Level.INFO, "ACCEPT USER REQUEST");
+                if (clientHandler.canConnect) {
+                    Thread thread = new Thread(clientHandler);
+                    thread.start();
+                    logger.log(Level.INFO, "ACCEPT USER REQUEST");
+                } else {
+                    logger.log(Level.WARNING, "USER REQUEST DENIED");
+                }
             }
         } catch (IOException err) {
             logger.log(Level.WARNING, "Server socket issue");
@@ -40,38 +44,14 @@ public class Server {
         }
     }
 
-    public static void runServer() {
+    public static void main(String []args) {
         try {
             ServerSocket serverSocket = new ServerSocket(8080);
             Server server = new Server(serverSocket);
             server.launch();
             server.close();
-        } catch(IOException err) {
+        } catch (IOException err) {
             err.printStackTrace();
-        }
-    }
-
-    private class ClientHandler implements Runnable {
-        public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-        private Socket socket;
-        public ClientHandler(Socket socket) {
-            this.socket = socket;
-            clientHandlers.add(this);
-        }
-
-        @Override
-        public void run() {
-            // run game
-        }
-
-        public void close(Socket socket) {
-            try {
-                if (socket != null) {
-                    socket.close();
-                }
-            } catch(IOException err) {
-                logger.log(Level.WARNING, "Something went wrong: " + err);
-            }
         }
     }
 }

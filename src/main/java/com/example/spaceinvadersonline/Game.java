@@ -75,12 +75,6 @@ public class Game implements Initializable {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
 
-        try {
-            Client.main();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         // moving player
         rootPane.setFocusTraversable(true);
         rootPane.setOnKeyPressed(e-> {
