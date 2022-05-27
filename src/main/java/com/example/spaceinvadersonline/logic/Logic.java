@@ -10,7 +10,7 @@ public class Logic {
     public House house;
     int score;
     public Logic() {
-        player = new Player(100);
+        player = new Player(100, 0);
         monster = new Monster();
         house = new House();
         score = 0;
