@@ -1,5 +1,12 @@
 package com.example.spaceinvadersonline;
 
+import com.example.spaceinvadersonline.logic.Logic;
+import com.example.spaceinvadersonline.server.Client;
+import com.example.spaceinvadersonline.server.DataPackage;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Background;
@@ -11,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +26,13 @@ import java.util.ResourceBundle;
 public class TempGame implements Initializable {
     @FXML
     private Pane rootPane;
+
+    AnimationTimer timer;
+
+    Text lives1Text;
+    Text lives2Text;
+    Text points1Text;
+    Text points2Text;
 
 
     @Override
@@ -29,6 +44,9 @@ public class TempGame implements Initializable {
         rootPane.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         rootPane.setStyle("-fx-background-color: black;");
 
+        DataPackage p1 = Client.Players.get(0);
+        DataPackage p2 = Client.Players.get(1);
+        Logic logic = new Logic(p1, p2);
 
         // right pane
         Rectangle rect = new Rectangle(1300, 0, 400, 1010);
@@ -38,11 +56,42 @@ public class TempGame implements Initializable {
         rootPane.getChildren().add(rect);
 
         makeLogoPane();
-        makePlayerNamePane("Player 1", "Player 2");
+        System.out.println(p1.playerName + " " + p2.playerName);
+        makePlayerNamePane(p1.playerName, p2.playerName);
 
-        // player1.getlives(), player2.getlives(), player1.getScore(), player2.getScore()
-        // timer?
-        setPlayerInfoPane(3, 3, 0, 0);
+        //start moving of monsters
+        logic.monster.dotR.setLayoutX(0);
+
+        //create player
+        rootPane.getChildren().addAll(logic.player1.player, logic.player2.player);
+
+        //create monsters
+        logic.monster.addMonsters(rootPane);
+
+        // create houses
+        logic.house.addHouses(rootPane);
+
+        setPlayerInfoPane(
+                p1.playerLives,
+                p2.playerLives,
+                p1.playerPoints,
+                p2.playerPoints);
+
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long arg0) {
+                logic.gameUpdate(rootPane, timer, points1Text, lives1Text, points2Text, lives2Text);
+            }
+        };
+        timer.start();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+            if(!logic.monster.monsters.isEmpty()) {
+                logic.monster.monstersShoot(rootPane);
+            }
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 
     private void makeLogoPane() {
@@ -56,6 +105,7 @@ public class TempGame implements Initializable {
         logo2.setLayoutY(160);
         logo2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 63));
         logo2.setFill(Color.WHITE);
+
         rootPane.getChildren().addAll(l1,logo2);
     }
 
@@ -75,25 +125,25 @@ public class TempGame implements Initializable {
     }
 
     private void setPlayerInfoPane(int lives1, int lives2, int points1, int points2) {
-        Text lives1Text = new Text("Lives: " + lives1);
+        lives1Text = new Text("Lives: " + lives1);
         lives1Text.setLayoutX(1350);
         lives1Text.setLayoutY(400);
         lives1Text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         lives1Text.setFill(Color.WHITE);
 
-        Text lives2Text = new Text("Lives: " + lives2);
+        lives2Text = new Text("Lives: " + lives2);
         lives2Text.setLayoutX(1350);
         lives2Text.setLayoutY(700);
         lives2Text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         lives2Text.setFill(Color.WHITE);
 
-        Text points1Text = new Text("Points: " + points1);
+        points1Text = new Text("Points: " + points1);
         points1Text.setLayoutX(1350);
         points1Text.setLayoutY(500);
         points1Text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         points1Text.setFill(Color.WHITE);
 
-        Text points2Text = new Text("Points: " + points2);
+        points2Text = new Text("Points: " + points2);
         points2Text.setLayoutX(1350);
         points2Text.setLayoutY(800);
         points2Text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));

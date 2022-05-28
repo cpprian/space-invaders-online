@@ -1,6 +1,7 @@
 package com.example.spaceinvadersonline.logic;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -21,10 +22,15 @@ public class Player {
         new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"))
     ));
     public ImageView player;
-    int numLives = 3;
+    public int numLives;
+    public String name;
+    public int points;
 
-    public Player(int x, int whichPlayer) {
+    public Player(int x, int whichPlayer, String name, int points, int lives) {
         player = player(x, whichPlayer);
+        this.name = name;
+        this.points = points;
+        this.numLives = lives;
     }
 
     public ImageView player(int x, int whichPlayer) {

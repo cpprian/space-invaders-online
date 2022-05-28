@@ -1,6 +1,7 @@
 package com.example.spaceinvadersonline;
 
 import com.example.spaceinvadersonline.server.Client;
+import com.example.spaceinvadersonline.server.ClientHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +55,7 @@ public class Enter {
 
     @FXML
     protected void initGame(ActionEvent event) throws Exception {
-        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("game.fxml")),
+        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("tempgame.fxml")),
                 null, new JavaFXBuilderFactory());
         Scene scene = new Scene(page,1700, 1010);
         scene.setFill(Color.BLACK);
