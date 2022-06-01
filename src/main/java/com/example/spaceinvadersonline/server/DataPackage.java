@@ -10,8 +10,7 @@ public class DataPackage {
     public int playerPoints;
     public int playerLives;
     public int playerX;
-//    public ArrayList<Circle> shoots;
-
+    public ArrayList<Circle> shoots;
     public DataPackage(String playerName, int playerID, int playerPoints, int playerLives, int playerX) {
         this.playerName = playerName;
         this.playerID = playerID;

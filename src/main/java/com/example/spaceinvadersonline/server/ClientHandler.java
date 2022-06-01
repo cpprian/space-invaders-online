@@ -76,6 +76,26 @@ public class ClientHandler implements Runnable {
                         throw new RuntimeException(e);
                     }
                 }
+                break;
+            }
+        }
+
+        while (socket.isConnected()) {
+            for (ClientHandler clientHandler: clientHandlers) {
+                try {
+                    String data = clientHandler.in.readUTF();
+                    if (!data.equals("")) {
+                        continue;
+                    }
+                    for (ClientHandler clientHandler1: clientHandlers) {
+                        if (!clientHandler1.getClientName().equals(getClientName())) {
+                            clientHandler1.out.writeUTF(data);
+                            clientHandler1.out.flush();
+                        }
+                    }
+                } catch(IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

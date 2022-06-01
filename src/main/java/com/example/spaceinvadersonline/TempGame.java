@@ -9,10 +9,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -47,6 +49,7 @@ public class TempGame implements Initializable {
         DataPackage p1 = Client.Players.get(0);
         DataPackage p2 = Client.Players.get(1);
         Logic logic = new Logic(p1, p2);
+        System.out.println("p1: " + p1.playerName + " p2: " + p2.playerName);
 
         // right pane
         Rectangle rect = new Rectangle(1300, 0, 400, 1010);
@@ -92,6 +95,38 @@ public class TempGame implements Initializable {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+
+        // moving player
+        rootPane.setFocusTraversable(true);
+        rootPane.setOnKeyPressed(e-> {
+            if (Client.clientName.equals(p1.playerName)) {
+                if(e.getCode() == KeyCode.RIGHT && logic.player1.player.getLayoutX() != 1250) {
+                    logic.player1.player.setLayoutX(logic.player1.player.getLayoutX() + 10);
+                    Client.Players.get(0).playerX = (int) logic.player1.player.getLayoutX();
+                }
+                if(e.getCode() == KeyCode.LEFT && logic.player1.player.getLayoutX() != 0) {
+                    logic.player1.player.setLayoutX(logic.player1.player.getLayoutX() - 10);
+                    Client.Players.get(0).playerX = (int) logic.player1.player.getLayoutX();
+                }
+                if(e.getCode() == KeyCode.SPACE) {
+                    logic.player1.playerShoot(rootPane, logic.player1.player.getLayoutX());
+                    Client.Players.get(0).shoots.add(new Circle(logic.player1.player.getLayoutX() + 25, 950, 10, Color.YELLOW));
+                }
+            } else if (Client.clientName.equals(p2.playerName)) {
+                if(e.getCode() == KeyCode.RIGHT && logic.player2.player.getLayoutX() != 1250) {
+                    logic.player2.player.setLayoutX(logic.player2.player.getLayoutX() + 10);
+                    Client.Players.get(1).playerX = (int) logic.player2.player.getLayoutX();
+                }
+                if(e.getCode() == KeyCode.LEFT && logic.player2.player.getLayoutX() != 0) {
+                    logic.player2.player.setLayoutX(logic.player2.player.getLayoutX() - 10);
+                    Client.Players.get(1).playerX = (int) logic.player2.player.getLayoutX();
+                }
+                if(e.getCode() == KeyCode.SPACE) {
+                    logic.player2.playerShoot(rootPane, logic.player2.player.getLayoutX());
+                    Client.Players.get(0).shoots.add(new Circle(logic.player2.player.getLayoutX() + 25, 950, 10, Color.YELLOW));
+                }
+            }
+        });
     }
 
     private void makeLogoPane() {

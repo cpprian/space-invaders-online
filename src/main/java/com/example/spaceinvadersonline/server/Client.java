@@ -18,18 +18,18 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.example.spaceinvadersonline.server.ClientHandler.clientHandlers;
+import static com.example.spaceinvadersonline.server.ClientHandler.dataPackage;
+
 public class Client {
     private Socket socket = new Socket("localhost", 8080);
     private DataOutputStream out;
     public DataInputStream in;
-    private String clientName;
+    public static String clientName;
     private boolean isReady = false;
     private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-
-    // test
-//    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     public static ArrayList<DataPackage> Players = new ArrayList<>();
+    public JSONArray jsonArray = new JSONArray();
 
     public Client(String clientName) throws IOException {
         this.clientName = clientName;
@@ -58,32 +58,44 @@ public class Client {
                     }
                     System.out.println(socket.isConnected());
 
+                    try {
+                        String message = in.readUTF();
+                        JSONParser jsonParser = new JSONParser();
+                        Object object = jsonParser.parse(message);
+                        JSONArray jsonArray = (JSONArray) object;
+                        for (Object o : jsonArray) {
+                            JSONObject jsonObject = (JSONObject) o;
+                            String playerName = (String) jsonObject.get("name");
+                            Long playerX = (Long) jsonObject.get("x");
+                            Long playerPoints = (Long) jsonObject.get("score");
+                            Long playerLives = (Long) jsonObject.get("lives");
+                            Long playerID = (Long) jsonObject.get("id");
+                            Players.add(new DataPackage(playerName,
+                                    Math.toIntExact(playerID),
+                                    Math.toIntExact(playerPoints),
+                                    Math.toIntExact(playerLives),
+                                    Math.toIntExact(playerX)));
+                        }
+                    } catch (IOException err) {
+                        logger.log(Level.WARNING, "Can't read message");
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
                     while (socket.isConnected()) {
-                        try {
-                            String message = in.readUTF();
-                            JSONParser jsonParser = new JSONParser();
-                            Object object = jsonParser.parse(message);
-                            JSONArray jsonArray = (JSONArray) object;
-//                            System.out.println(jsonArray);
-                            for (Object o : jsonArray) {
-                                JSONObject jsonObject = (JSONObject) o;
-                                String playerName = (String) jsonObject.get("name");
-                                Long playerX = (Long) jsonObject.get("x");
-                                Long playerPoints = (Long) jsonObject.get("score");
-                                Long playerLives = (Long) jsonObject.get("lives");
-                                Long playerID = (Long) jsonObject.get("id");
-                                Players.add(new DataPackage(playerName,
-                                        Math.toIntExact(playerID),
-                                        Math.toIntExact(playerPoints),
-                                        Math.toIntExact(playerLives),
-                                        Math.toIntExact(playerX)));
-                            }
-                        } catch (IOException err) {
-                            logger.log(Level.WARNING, "Can't read message");
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
+//                        dataPackage.get(dataPackage.get(0).equals(clientName) ? 0: 1) = 0;
+
+                        for (int i = 0; i < 2; i++) {
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("name", dataPackage.get(i).playerName);
+                            jsonObject.put("x", dataPackage.get(i).playerX);
+                            jsonObject.put("lives", dataPackage.get(i).playerLives);
+                            jsonObject.put("score", dataPackage.get(i).playerPoints);
+                            jsonObject.put("id", dataPackage.get(i).playerID);
+                            jsonArray.add(jsonObject);
                         }
                     }
+
                 }
         );
         thread.start();

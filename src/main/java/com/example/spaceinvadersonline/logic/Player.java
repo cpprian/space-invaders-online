@@ -33,6 +33,12 @@ public class Player {
         this.numLives = lives;
     }
 
+    public void setPlayer(int x, int score, int lives) {
+        this.points = score;
+        this.numLives = lives;
+        player.setX(x);
+    }
+
     public ImageView player(int x, int whichPlayer) {
         ImageView i = playerShips.get(whichPlayer);
         i.setLayoutX(x);

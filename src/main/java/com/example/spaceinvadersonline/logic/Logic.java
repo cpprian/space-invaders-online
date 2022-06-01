@@ -19,6 +19,14 @@ public class Logic {
         score = 0;
     }
 
+    public void setPlayer(DataPackage player) {
+        if (player.playerID == 1) {
+            player1.setPlayer(player.playerX, player.playerPoints, player.playerLives);
+        } else {
+            player2.setPlayer(player.playerX, player.playerPoints, player.playerLives);
+        }
+    }
+
     public void gameUpdate(Pane root, AnimationTimer timer, Text points1, Text lives1, Text points2, Text lives2) {
         player1.playersShootUpdate(root);
         player2.playersShootUpdate(root);
