@@ -94,7 +94,7 @@ public class Monster {
         }
     }
 
-    public void monstersMove(Player player) {
+    public void monstersMove(Player player1, Player player2) {
         double speed;
         if(toRight) {
             speed = 0.6;
@@ -119,7 +119,8 @@ public class Monster {
         for (ImageView monster : monsters) {
             monster.setLayoutX(monster.getLayoutX() + speed);
             if (monster.getLayoutY() == 800) {
-                player.numLives = 0;
+                player1.numLives = 0;
+                player2.numLives = 0;
             }
         }
         dotR.setLayoutX(dotR.getLayoutX() + speed);

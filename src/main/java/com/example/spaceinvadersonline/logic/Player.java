@@ -33,10 +33,10 @@ public class Player {
         this.numLives = lives;
     }
 
-    public void setPlayer(int x, int score, int lives) {
-        this.points = score;
+    public void setPlayer(int x, int lives, int points) {
+        this.points = points;
         this.numLives = lives;
-        player.setX(x);
+        player.setLayoutX(x);
     }
 
     public ImageView player(int x, int whichPlayer) {
@@ -52,7 +52,8 @@ public class Player {
         Circle c = new Circle();
         c.setFill(Color.GREENYELLOW);
         c.setLayoutX(x);
-        c.setLayoutY(y);c.setRadius(3);
+        c.setLayoutY(y);
+        c.setRadius(3);
         return c;
     }
 
@@ -80,7 +81,7 @@ public class Player {
                     && ((monster.shoots.get(i).getLayoutX() < player.getLayoutX() + 50))
                     && ((monster.shoots.get(i).getLayoutY() > player.getLayoutY())
                     && ((monster.shoots.get(i).getLayoutY() < player.getLayoutY() + 50))))) {
-                player.setLayoutX(225);
+                player.setLayoutX(800);
                 numLives -= 1;
                 lives.setText("Lives: " + numLives);
             }

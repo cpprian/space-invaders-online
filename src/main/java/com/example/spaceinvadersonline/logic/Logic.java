@@ -1,6 +1,6 @@
 package com.example.spaceinvadersonline.logic;
 
-import com.example.spaceinvadersonline.server.DataPackage;
+import com.example.spaceinvadersonline.data.DataPackage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -10,21 +10,20 @@ public class Logic {
     public Player player2;
     public Monster monster;
     public House house;
-    int score;
-    public Logic(DataPackage player1, DataPackage player2) {
-        this.player1 = new Player(player1.playerX, player1.playerID, player1.playerName, player1.playerPoints, player1.playerLives);
-        this.player2 = new Player(player2.playerX, player2.playerID, player2.playerName, player2.playerPoints, player2.playerLives);
+    int score1;
+    int score2;
+    public Logic(DataPackage currentPlayer, DataPackage secondPlayer) {
+        if (currentPlayer.getId() == 0) {
+            player1 = new Player(currentPlayer.getxPosition(), currentPlayer.getId(), currentPlayer.getName(), 0, 3);
+            player2 = new Player(secondPlayer.getxPosition(), secondPlayer.getId(), secondPlayer.getName(), 0, 3);
+        } else {
+            player1 = new Player(secondPlayer.getxPosition(), secondPlayer.getId(), secondPlayer.getName(), 0, 3);
+            player2 = new Player(currentPlayer.getxPosition(), currentPlayer.getId(), currentPlayer.getName(), 0, 3);
+        }
         monster = new Monster();
         house = new House();
-        score = 0;
-    }
-
-    public void setPlayer(DataPackage player) {
-        if (player.playerID == 1) {
-            player1.setPlayer(player.playerX, player.playerPoints, player.playerLives);
-        } else {
-            player2.setPlayer(player.playerX, player.playerPoints, player.playerLives);
-        }
+        score1 = 0;
+        score2 = 0;
     }
 
     public void gameUpdate(Pane root, AnimationTimer timer, Text points1, Text lives1, Text points2, Text lives2) {
@@ -34,13 +33,21 @@ public class Logic {
         house.isHouseDamaged(root, monster);
         player1.isPlayerDestroyed(monster, lives1);
         player2.isPlayerDestroyed(monster, lives2);
-        monster.isMonsterDestroyed(root, player1, score, points1);
-        monster.isMonsterDestroyed(root, player2, score, points2);
-        monster.monstersMove(player1);
-        monster.monstersMove(player2);
+        monster.isMonsterDestroyed(root, player1, score1, points1);
+        monster.isMonsterDestroyed(root, player2, score2, points2);
+        monster.monstersMove(player1, player2);
         player1.isWin(root, timer, monster);
         player2.isWin(root, timer, monster);
         player1.isLost(root, timer);
         player2.isLost(root, timer);
+    }
+
+    public void updatePlayer(DataPackage player) {
+        // TODO: udpate shoots
+        if (player.getId() == 0) {
+            player1.setPlayer(player.getxPosition(), player.getLives(), player.getPoints());
+        } else {
+            player2.setPlayer(player.getxPosition(), player.getLives(), player.getPoints());
+        }
     }
 }

@@ -20,7 +20,7 @@ public class Server {
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(socket);
-                if (clientHandler.canConnect) {
+                if (clientHandler.getConnection()) {
                     Thread thread = new Thread(clientHandler);
                     thread.start();
                     logger.log(Level.INFO, "ACCEPT USER REQUEST");
