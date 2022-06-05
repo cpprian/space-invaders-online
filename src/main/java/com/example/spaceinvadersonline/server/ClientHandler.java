@@ -47,13 +47,10 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        // read data from client and send to another
-        // data package
-        // - player info --> name, id, xposition, shoots array, lives, points, isWin
-        // - monster array
         while(true) {
             try {
                 String readMessage = in.readUTF();
+                System.out.println(readMessage);
                 for (ClientHandler clientHandler : clientHandlers) {
                     if (clientHandler != this) {
                         clientHandler.out.writeUTF(readMessage);

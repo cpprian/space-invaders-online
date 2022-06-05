@@ -1,5 +1,6 @@
 package com.example.spaceinvadersonline.logic;
 
+import com.example.spaceinvadersonline.data.DataPackage;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    List<Circle> shoots = new ArrayList<>();
+    ArrayList<Circle> shoots = new ArrayList<>();
     private static final List<ImageView> playerShips = new ArrayList<>(List.of(
         new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s1.png")),
         new ImageView(new Image("file:src/main/resources/com/example/spaceinvadersonline/player/s2.png"))
@@ -33,10 +34,18 @@ public class Player {
         this.numLives = lives;
     }
 
-    public void setPlayer(int x, int lives, int points) {
+    public void setPlayer(Pane rootPane, int x, int lives, int points, ArrayList<Integer> bullets) {
         this.points = points;
         this.numLives = lives;
         player.setLayoutX(x);
+
+        for (int i = 0; i < bullets.size(); i++) {
+            if (i < shoots.size()) {
+                shoots.get(i).setLayoutX(bullets.get(i));
+            } else {
+                playerShoot(rootPane, bullets.get(i));
+            }
+        }
     }
 
     public ImageView player(int x, int whichPlayer) {
@@ -57,20 +66,37 @@ public class Player {
         return c;
     }
 
+    public ArrayList<Circle> getShoots() {
+        return shoots;
+    }
+
     public void playerShoot(Pane root, double x) {
         shoots.add(shoot((x + 25), 950));
         root.getChildren().add(shoots.get(shoots.size() - 1));
     }
 
-    public void playersShootUpdate(Pane root) {
+    public void playersShootUpdate(Pane root, DataPackage player) {
+        if (player.getShoots().size() == 0 && shoots.size() == 0) {
+            return;
+        }
         if(!shoots.isEmpty()) {
             for(int i = 0; i < shoots.size(); i ++) {
-                shoots.get(i).setLayoutY(shoots.get(i).getLayoutY() - 3);
+                shoots.get(i).setLayoutY(shoots.get(i).getLayoutY() - 10);
                 if(shoots.get(i).getLayoutY() <= 0) {
                     root.getChildren().remove(shoots.get(i));
                     shoots.remove(i);
+                    player.setShoots(new ArrayList<>());
+                    player.setShoots(shoots);
                 }
             }
+        }
+    }
+
+    public void playersShootSwap(Pane root, double x) {
+        if(!shoots.isEmpty()) {
+            root.getChildren().remove(shoots.get(0));
+            shoots.remove(0);
+            playerShoot(root, x);
         }
     }
 

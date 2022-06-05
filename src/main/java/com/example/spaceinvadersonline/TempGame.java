@@ -114,7 +114,7 @@ public class TempGame implements Initializable {
             while(true) {
                 try {
                     // send
-                    String sendMessage = gson.toJson(currentPlayer);
+                    String sendMessage = gson.toJson(getCurrentPlayer());
                     out.writeUTF(sendMessage);
                     out.flush();
 
@@ -138,9 +138,9 @@ public class TempGame implements Initializable {
             }
         }
 
-        logic = new Logic(currentPlayer, secondPlayer);
+        logic = new Logic(currentPlayer, getSecondPlayer());
         makeLogoPane();
-        makePlayerNamePane(currentPlayer.getName(), secondPlayer.getName());
+        makePlayerNamePane(currentPlayer.getName(), getSecondPlayer().getName());
         setPlayerInfoPane();
 
         //start moving of monsters
@@ -158,9 +158,8 @@ public class TempGame implements Initializable {
         timer = new AnimationTimer() {
             @Override
             public void handle(long arg0) {
-                logic.updatePlayer(secondPlayer);
-                System.out.println("Gracz: " + secondPlayer.getName() + " pozycja --> " + secondPlayer.getxPosition());
-                logic.gameUpdate(rootPane, timer, points1, lives1, points2, lives2);
+                logic.updatePlayer(rootPane, getSecondPlayer());
+                logic.gameUpdate(rootPane, timer, points1, lives1, points2, lives2, currentPlayer, getSecondPlayer());
             }
         };
         timer.start();
@@ -185,7 +184,13 @@ public class TempGame implements Initializable {
                     currentPlayer.setxPosition((int) logic.player1.player.getLayoutX());
                 }
                 if(e.getCode() == KeyCode.SPACE) {
-                    logic.player1.playerShoot(rootPane, logic.player1.player.getLayoutX());
+                    if (logic.player1.getShoots().size() < 10) {
+                        logic.player1.playerShoot(rootPane, logic.player1.player.getLayoutX());
+                        currentPlayer.setShoots(logic.player2.getShoots());
+                    } else {
+                        logic.player1.playersShootSwap(rootPane, logic.player1.player.getLayoutX());
+                        currentPlayer.setShoots(logic.player2.getShoots());
+                    }
                 }
             } else {
                 if(e.getCode() == KeyCode.RIGHT && logic.player2.player.getLayoutX() != 1250) {
@@ -197,7 +202,14 @@ public class TempGame implements Initializable {
                     currentPlayer.setxPosition((int) logic.player2.player.getLayoutX());
                 }
                 if(e.getCode() == KeyCode.SPACE) {
-                    logic.player2.playerShoot(rootPane, logic.player2.player.getLayoutX());
+                    if (logic.player2.getShoots().size() < 10) {
+                        logic.player2.playerShoot(rootPane, logic.player2.player.getLayoutX());
+                        currentPlayer.setShoots(logic.player2.getShoots());
+                    } else {
+                        logic.player2.playersShootSwap(rootPane, logic.player2.player.getLayoutX());
+                        currentPlayer.setShoots(logic.player2.getShoots());
+                    }
+
                 }
             }
         });
@@ -262,6 +274,12 @@ public class TempGame implements Initializable {
         points2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 30));
         points2.setFill(Color.WHITE);
         rootPane.getChildren().addAll(lives1,lives2,points1,points2);
+    }
+    private synchronized void setCurrentPlayer(DataPackage data) {
+        currentPlayer = data;
+    }
+    private synchronized DataPackage getCurrentPlayer() {
+        return currentPlayer;
     }
     private synchronized void setSecondPlayer(DataPackage secondPlayer) {
         this.secondPlayer = secondPlayer;

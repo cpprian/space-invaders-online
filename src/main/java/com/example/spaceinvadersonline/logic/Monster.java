@@ -1,5 +1,6 @@
 package com.example.spaceinvadersonline.logic;
 
+import com.example.spaceinvadersonline.data.DataPackage;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -75,7 +76,7 @@ public class Monster {
         root.getChildren().add(shoots.get(shoots.size() - 1));
     }
 
-    public void isMonsterDestroyed(Pane root, Player player, int numPoints, Text points) {
+    public int isMonsterDestroyed(Pane root, Player player, int numPoints, Text points, DataPackage p) {
         for(int i = 0; i < player.shoots.size(); i++) {
             for(int j = 0; j < monsters.size(); j++) {
                 if(        player.shoots.get(i).getLayoutX() > monsters.get(j).getLayoutX()
@@ -86,12 +87,14 @@ public class Monster {
                     monsters.remove(j);
                     root.getChildren().remove(player.shoots.get(i));
                     player.shoots.remove(i);
+                    p.setShoots(player.shoots);
                     numPoints += 100;
                     points.setText("Points: " + numPoints);
                     break;
                 }
             }
         }
+        return numPoints;
     }
 
     public void monstersMove(Player player1, Player player2) {
