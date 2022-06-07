@@ -14,8 +14,8 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("enter.fxml")));
-            Scene scene = new Scene(page, 800, 700);
+            Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));
+            Scene scene = new Scene(page, 1700, 1010);
             primaryStage.setScene(scene);
             primaryStage.show();
             primaryStage.centerOnScreen();
@@ -25,7 +25,7 @@ public class App extends Application {
     }
 
     private void logError(Exception ex) {
-        Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     public static void main(String[] args) {

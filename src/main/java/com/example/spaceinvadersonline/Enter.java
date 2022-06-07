@@ -45,7 +45,7 @@ public class Enter {
 
     @FXML
     protected void initGame(ActionEvent event) throws Exception {
-        Parent page = FXMLLoader.load(Objects.requireNonNull(App.class.getResource("tempgame.fxml")),
+        Parent page = FXMLLoader.load(Objects.requireNonNull(Menu.class.getResource("tempgame.fxml")),
                 null, new JavaFXBuilderFactory());
         Scene scene = new Scene(page,1700, 1010);
         scene.setFill(Color.BLACK);
