@@ -85,7 +85,9 @@ public class Player {
                 if(shoots.get(i).getLayoutY() <= 0) {
                     root.getChildren().remove(shoots.get(i));
                     shoots.remove(i);
-                    player.getShoots().remove(i);
+                    if(player.getShoots().size()>i){
+                        player.getShoots().remove(i);
+                    }
                 }
             }
         }
