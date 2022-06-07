@@ -27,13 +27,13 @@ public class Logic {
         if (player1.name.equals(p1.getName())) {
             player1.playersShootUpdate(root, p1);
             player2.playersShootUpdate(root, p2);
-            p1.setPoints(monster.isMonsterDestroyed(root, player1, p1.getPoints(), points1, p1));
-            p2.setPoints(monster.isMonsterDestroyed(root, player2, p2.getPoints(), points2, p2));
+            monster.isMonsterDestroyed(root, player1, points1, p1);
+            monster.isMonsterDestroyed(root, player2, points2, p2);
         } else {
             player2.playersShootUpdate(root, p1);
             player1.playersShootUpdate(root, p2);
-            p1.setPoints(monster.isMonsterDestroyed(root, player2, p2.getPoints(), points1, p1));
-            p2.setPoints(monster.isMonsterDestroyed(root, player1, p1.getPoints(), points2, p2));
+            monster.isMonsterDestroyed(root, player2, points1, p1);
+            monster.isMonsterDestroyed(root, player1, points2, p2);
         }
 
         monster.monstersShootUpdate(root);

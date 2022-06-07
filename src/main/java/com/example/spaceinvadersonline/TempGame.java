@@ -138,9 +138,9 @@ public class TempGame implements Initializable {
             }
         }
 
-        logic = new Logic(currentPlayer, getSecondPlayer());
+        logic = new Logic(getCurrentPlayer(), getSecondPlayer());
         makeLogoPane();
-        makePlayerNamePane(currentPlayer.getName(), getSecondPlayer().getName());
+        makePlayerNamePane(getCurrentPlayer().getName(), getSecondPlayer().getName());
         setPlayerInfoPane();
 
         //start moving of monsters
@@ -159,7 +159,7 @@ public class TempGame implements Initializable {
             @Override
             public void handle(long arg0) {
                 logic.updatePlayer(rootPane, getSecondPlayer());
-                logic.gameUpdate(rootPane, timer, points1, lives1, points2, lives2, currentPlayer, getSecondPlayer());
+                logic.gameUpdate(rootPane, timer, points1, lives1, points2, lives2, getCurrentPlayer(), getSecondPlayer());
             }
         };
         timer.start();
