@@ -14,6 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Player {
@@ -128,7 +129,7 @@ public class Player {
         }
     }
 
-    public void isWin(Pane root, AnimationTimer timer, Monster monster){
+    public void isWin(Pane root, AnimationTimer timer, Monster monster,Text pt1,Text pt2,DataPackage pl1,DataPackage pl2){
         if(monster.monsters.isEmpty()) {
             Text text = new Text();
             text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 50));
@@ -137,7 +138,18 @@ public class Player {
             text.setFill(Color.YELLOW);
             text.setStrokeWidth(3);
             text.setStroke(Color.GOLD);
-            text.setText("WIN");
+           // System.out.println("player: "+ name + points + " player2:" + player2.name + player2.points);
+            String[] punkt= (pt1.getText().split(" "));
+            String[] punkt2= (pt2.getText().split(" "));
+            int po1=Integer.parseInt(punkt[1]);
+            int po2=Integer.parseInt(punkt2[1]);
+            System.out.println("player: "+ pl1.getName() + po1 + " player2:" + pl2.getName() + po2);
+            if(po1<po2){
+                text.setText(pl2.getName()+" WIN");
+            }
+            else{
+                text.setText(pl1.getName()+" WIN");
+            }
             root.getChildren().add(text);
             timer.stop();
         }

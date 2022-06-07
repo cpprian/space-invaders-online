@@ -35,16 +35,12 @@ public class Logic {
             monster.isMonsterDestroyed(root, player2, points1, p1);
             monster.isMonsterDestroyed(root, player1, points2, p2);
         }
-
         monster.monstersShootUpdate(root);
         house.isHouseDamaged(root, monster);
         player1.isPlayerDestroyed(monster, lives1);
         player2.isPlayerDestroyed(monster, lives2);
         monster.monstersMove(player1, player2);
-        player1.isWin(root, timer, monster);
-        player2.isWin(root, timer, monster);
-        player1.isLost(root, timer);
-        player2.isLost(root, timer);
+        player1.isWin(root, timer, monster,points1,points2,p1,p2);
     }
 
     public void updatePlayer(Pane rootPane, DataPackage player) {

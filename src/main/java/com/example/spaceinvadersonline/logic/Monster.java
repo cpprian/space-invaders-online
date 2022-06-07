@@ -92,7 +92,6 @@ public class Monster {
                     }
 //                    p.setShoots(player.shoots);
                     p.setPoints(p.getPoints() + 100);
-                    points.setText("Points: " + p.getPoints());
                     break;
                 }
             }

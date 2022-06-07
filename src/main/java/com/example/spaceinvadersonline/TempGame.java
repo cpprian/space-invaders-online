@@ -114,13 +114,22 @@ public class TempGame implements Initializable {
             while(true) {
                 try {
                     // send
+                    if(points1!=null)
+                    {
+                        points1.setText("Points: " + currentPlayer.getPoints());
+                    }
                     String sendMessage = gson.toJson(getCurrentPlayer());
                     out.writeUTF(sendMessage);
                     out.flush();
 
                     // read
                     String readMessage = in.readUTF();
+                   // System.out.println(readMessage);
                     secondPlayer = gson.fromJson(readMessage, DataPackage.class);
+                    if(points2!=null)
+                    {
+                        points2.setText("Points: " + secondPlayer.getPoints());
+                    }
                     setSecondPlayer(secondPlayer);
                 } catch (IOException err) {
                     logger.log(Level.WARNING, "Something went wrong: " + err.getMessage());

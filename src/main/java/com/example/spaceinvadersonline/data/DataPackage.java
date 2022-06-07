@@ -1,8 +1,15 @@
 package com.example.spaceinvadersonline.data;
 
+import com.example.spaceinvadersonline.logic.Monster;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
