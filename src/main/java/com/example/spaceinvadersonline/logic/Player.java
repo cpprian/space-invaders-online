@@ -155,16 +155,16 @@ public class Player {
         }
     }
 
-    public void isLost(Pane root, AnimationTimer timer){
+    public void isLost(Pane root, AnimationTimer timer,Player player2){
         if(numLives <= 0) {
             Text text = new Text();
             text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 50));
             text.setX(180);
             text.setY(300);
-            text.setFill(Color.RED);
+            text.setFill(Color.YELLOW);
             text.setStrokeWidth(3);
-            text.setStroke(Color.CRIMSON);
-            text.setText("YOU LOSE");
+            text.setStroke(Color.GOLD);
+            text.setText(player2.name+" WIN");
             root.getChildren().add(text);
             timer.stop();
         }
