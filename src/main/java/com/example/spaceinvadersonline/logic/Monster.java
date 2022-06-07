@@ -90,7 +90,7 @@ public class Monster {
                     if (p.getShoots().size() > i) {
                         p.getShoots().remove(i);
                     }
-//                    p.setShoots(player.shoots);
+
                     p.setPoints(p.getPoints() + 100);
                     points.setText("Points: " + p.getPoints());
                     break;

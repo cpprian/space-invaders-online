@@ -80,12 +80,12 @@ public class Player {
             return;
         }
         if(!shoots.isEmpty()) {
-            for(int i = 0; i < shoots.size(); i ++) {
+            for(int i = 0; i < shoots.size(); i++) {
                 shoots.get(i).setLayoutY(shoots.get(i).getLayoutY() - 10);
                 if(shoots.get(i).getLayoutY() <= 0) {
                     root.getChildren().remove(shoots.get(i));
                     shoots.remove(i);
-                    if(player.getShoots().size()>i){
+                    if(player.getShoots().size() > i){
                         player.getShoots().remove(i);
                     }
                 }

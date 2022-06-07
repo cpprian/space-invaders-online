@@ -2,6 +2,7 @@ package com.example.spaceinvadersonline;
 
 import com.example.spaceinvadersonline.data.DataPackage;
 import com.example.spaceinvadersonline.logic.Logic;
+import com.google.gson.JsonArray;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -13,6 +14,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -20,6 +22,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import com.google.gson.Gson;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -27,6 +33,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,22 +116,46 @@ public class TempGame implements Initializable {
         }
         int xposition = playerID == 0? 50: 1100;
         currentPlayer = new DataPackage(nameCurrentPlayer, playerID, xposition);
+        secondPlayer = new DataPackage();
 
         // read second player & send current player
         Thread thread = new Thread(() -> {
             while(true) {
                 try {
                     // send
-                    String sendMessage = gson.toJson(getCurrentPlayer());
-                    out.writeUTF(sendMessage);
+                    JSONArray jsonArray = new JSONArray();
+                    Iterator<Integer> shoots = getCurrentPlayer().getShoots().iterator();
+                    while (shoots.hasNext()) {
+                        jsonArray.add(shoots.next());
+                    }
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name", getCurrentPlayer().getName());
+                    jsonObject.put("id", getCurrentPlayer().getId());
+                    jsonObject.put("xPosition", getCurrentPlayer().getxPosition());
+                    jsonObject.put("lives", getCurrentPlayer().getLives());
+                    jsonObject.put("points", getCurrentPlayer().getPoints());
+                    jsonObject.put("isWin", getCurrentPlayer().isWin());
+                    jsonObject.put("shoots", jsonArray);
+                    System.out.println("shoots --> " + jsonArray);
+                    out.writeUTF(jsonObject.toJSONString());
                     out.flush();
 
                     // read
                     String readMessage = in.readUTF();
-                    secondPlayer = gson.fromJson(readMessage, DataPackage.class);
+                    JSONParser jsonParser = new JSONParser();
+                    JSONObject readJson = (JSONObject)jsonParser.parse(readMessage);
+                    secondPlayer.setName((String) readJson.get("name"));
+                    secondPlayer.setId(Math.toIntExact((Long) readJson.get("id")));
+                    secondPlayer.setxPosition(Math.toIntExact((Long) readJson.get("xPosition")));
+                    secondPlayer.setLives(Math.toIntExact((Long) readJson.get("lives")));
+                    secondPlayer.setPoints(Math.toIntExact((Long) readJson.get("points")));
+                    secondPlayer.setWin((Boolean) readJson.get("isWin"));
+                    secondPlayer.setShootsInteger((ArrayList<Long>) readJson.get("shoots"));
                     setSecondPlayer(secondPlayer);
                 } catch (IOException err) {
                     logger.log(Level.WARNING, "Something went wrong: " + err.getMessage());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
@@ -131,9 +163,9 @@ public class TempGame implements Initializable {
 
         // wait for secondPlayer
         while (true) {
-            System.out.print("not ready\t");
+//            System.out.print("not ready\t");
             if (secondPlayer != null) {
-                System.out.println("\nready");
+//                System.out.println("\nready");
                 break;
             }
         }

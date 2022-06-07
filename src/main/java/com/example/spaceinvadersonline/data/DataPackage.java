@@ -13,9 +13,9 @@ public class DataPackage {
     private int lives;
     private int points;
     private boolean isWin;
-    private boolean isShooting;
-    private ArrayList<Integer> shoots;
+    private ArrayList<Integer> shoots = new ArrayList<>();
 
+    public DataPackage() {}
     public DataPackage(String name, int id, int xPosition) {
         this.name = name;
         this.id = id;
@@ -23,8 +23,6 @@ public class DataPackage {
         this.lives = 3;
         this.points = 0;
         this.isWin = false;
-        this.isShooting = false;
-        this.shoots = new ArrayList<>();
     }
 
     public String getName() {
@@ -74,12 +72,6 @@ public class DataPackage {
     public void setWin(boolean win) {
         isWin = win;
     }
-    public void setShooting(boolean shooting) {
-        isShooting = shooting;
-    }
-    public boolean isShooting() {
-        return isShooting;
-    }
 
     public ArrayList<Integer> getShoots() {
         return shoots;
@@ -95,6 +87,20 @@ public class DataPackage {
                 shoots.add((int) bullets.get(i).getLayoutX());
             } else {
                 shoots.set(i, (int) bullets.get(i).getLayoutX());
+            }
+        }
+    }
+
+    public void setShootsInteger(ArrayList<Long> bullets) {
+        if (bullets.size() > 10) {
+            System.out.println("Too many bullets");
+            return;
+        }
+        for (int i = 0; i < bullets.size(); i++) {
+            if (shoots.size() < bullets.size()) {
+                shoots.add(Math.toIntExact(bullets.get(i)));
+            } else {
+                shoots.set(i, Math.toIntExact(bullets.get(i)));
             }
         }
     }
