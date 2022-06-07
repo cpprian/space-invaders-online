@@ -14,7 +14,6 @@ public class ClientHandler implements Runnable {
     private DataInputStream in;
     private DataOutputStream out;
     private boolean canConnect = false;
-    private Gson gosn = new Gson();
 
 
     public ClientHandler(Socket socket) {

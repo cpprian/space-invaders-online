@@ -92,13 +92,12 @@ public class Monster {
                     }
                     if (flag == 1) {
                         p.setPoints(p.getPoints() + 100);
-                        points.setText("Points: " + p.getPoints());
                     }
+                    points.setText("Points: " + p.getPoints());
                     break;
                 }
             }
         }
-        points.setText("Points: " + p.getPoints());
     }
 
     public void monstersMove(Player player1, Player player2) {

@@ -2,6 +2,7 @@ package com.example.spaceinvadersonline;
 
 import com.example.spaceinvadersonline.data.DataPackage;
 import com.example.spaceinvadersonline.logic.Logic;
+import com.example.spaceinvadersonline.server.Server;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -29,9 +30,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -134,7 +133,6 @@ public class Game implements Initializable {
                         jsonArray.add(shoots.next());
                     }
                     jsonObject.put("shoots", jsonArray);
-                    System.out.println("shoots --> " + jsonArray);
                     out.writeUTF(jsonObject.toJSONString());
                     out.flush();
 

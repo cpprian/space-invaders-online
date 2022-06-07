@@ -1,5 +1,8 @@
 package com.example.spaceinvadersonline.server;
 
+import javafx.animation.Animation;
+import javafx.animation.Timeline;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
+    public static Timeline timeline;
     private final ServerSocket serverSocket;
     private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
