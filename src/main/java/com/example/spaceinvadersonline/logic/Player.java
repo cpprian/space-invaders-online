@@ -93,14 +93,6 @@ public class Player {
         }
     }
 
-    public void playersShootSwap(Pane root, double x) {
-        if(!shoots.isEmpty()) {
-            root.getChildren().remove(shoots.get(0));
-            shoots.remove(0);
-            playerShoot(root, x);
-        }
-    }
-
     public void isPlayerDestroyed(Monster monster, Text lives) {
         // shoots
         for(int i = 0; i < monster.shoots.size(); i++) {
@@ -122,18 +114,30 @@ public class Player {
                     && monster.monsters.get(i).getLayoutY() < player.getLayoutY() + 50
             ) {
                 numLives -= 1;
-                lives.setText("Livex: " + numLives);
+                lives.setText("Lives: " + numLives);
                 break;
             }
         }
     }
 
-    public void isWin(Pane root, AnimationTimer timer, Monster monster){
-        if(monster.monsters.isEmpty()) {
+    public void winCheck(Monster monster, DataPackage player1, DataPackage player2) {
+        if (monster.monsters.isEmpty()) {
+            if (player1.getPoints() >= player2.getPoints()) {
+                player1.setWin(true);
+                player2.setLost(true);
+            } else {
+                player1.setLost(true);
+                player2.setWin(true);
+            }
+        }
+    }
+
+    public void isWin(Pane root, AnimationTimer timer, DataPackage player) {
+        if (player.isWin()) {
             Text text = new Text();
             text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 50));
-            text.setX(180);
-            text.setY(300);
+            text.setX(500);
+            text.setY(400);
             text.setFill(Color.YELLOW);
             text.setStrokeWidth(3);
             text.setStroke(Color.GOLD);
@@ -143,12 +147,12 @@ public class Player {
         }
     }
 
-    public void isLost(Pane root, AnimationTimer timer){
-        if(numLives <= 0) {
+    public void isLost(Pane root, AnimationTimer timer, DataPackage player){
+        if(numLives <= 0 || player.isLost()) {
             Text text = new Text();
             text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 50));
-            text.setX(180);
-            text.setY(300);
+            text.setX(500);
+            text.setY(400);
             text.setFill(Color.RED);
             text.setStrokeWidth(3);
             text.setStroke(Color.CRIMSON);

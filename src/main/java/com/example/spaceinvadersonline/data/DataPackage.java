@@ -13,6 +13,7 @@ public class DataPackage {
     private int lives;
     private int points;
     private boolean isWin;
+    private boolean isLost;
     private ArrayList<Integer> shoots = new ArrayList<>();
 
     public DataPackage() {}
@@ -23,6 +24,7 @@ public class DataPackage {
         this.lives = 3;
         this.points = 0;
         this.isWin = false;
+        this.isLost = false;
     }
 
     public String getName() {
@@ -71,6 +73,12 @@ public class DataPackage {
 
     public void setWin(boolean win) {
         isWin = win;
+    }
+    public boolean isLost() {
+        return isLost;
+    }
+    public void setLost(boolean lost) {
+        this.isLost = lost;
     }
 
     public ArrayList<Integer> getShoots() {

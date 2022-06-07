@@ -24,16 +24,21 @@ public class Logic {
     }
 
     public void gameUpdate(Pane root, AnimationTimer timer, Text points1, Text lives1, Text points2, Text lives2, DataPackage p1, DataPackage p2) {
+        player1.winCheck(monster, p1, p2);
         if (player1.name.equals(p1.getName())) {
             player1.playersShootUpdate(root, p1);
             player2.playersShootUpdate(root, p2);
-            monster.isMonsterDestroyed(root, player1, points1, p1);
-            monster.isMonsterDestroyed(root, player2, points2, p2);
+            monster.isMonsterDestroyed(root, player1, points1, p1, 1);
+            monster.isMonsterDestroyed(root, player2, points2, p2, 0);
+            player1.isWin(root, timer, p1);
+            player1.isLost(root, timer, p1);
         } else {
             player2.playersShootUpdate(root, p1);
             player1.playersShootUpdate(root, p2);
-            monster.isMonsterDestroyed(root, player2, points1, p1);
-            monster.isMonsterDestroyed(root, player1, points2, p2);
+            monster.isMonsterDestroyed(root, player2, points1, p1, 1);
+            monster.isMonsterDestroyed(root, player1, points2, p2, 0);
+            player2.isWin(root, timer, p1);
+            player2.isLost(root, timer, p1);
         }
 
         monster.monstersShootUpdate(root);
@@ -41,10 +46,6 @@ public class Logic {
         player1.isPlayerDestroyed(monster, lives1);
         player2.isPlayerDestroyed(monster, lives2);
         monster.monstersMove(player1, player2);
-        player1.isWin(root, timer, monster);
-        player2.isWin(root, timer, monster);
-        player1.isLost(root, timer);
-        player2.isLost(root, timer);
     }
 
     public void updatePlayer(Pane rootPane, DataPackage player) {

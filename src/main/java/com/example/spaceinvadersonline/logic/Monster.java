@@ -76,7 +76,7 @@ public class Monster {
         root.getChildren().add(shoots.get(shoots.size() - 1));
     }
 
-    public void isMonsterDestroyed(Pane root, Player player, Text points, DataPackage p) {
+    public void isMonsterDestroyed(Pane root, Player player, Text points, DataPackage p, int flag) {
         for(int i = 0; i < player.shoots.size(); i++) {
             for(int j = 0; j < monsters.size(); j++) {
                 if(        player.shoots.get(i).getLayoutX() > monsters.get(j).getLayoutX()
@@ -90,13 +90,15 @@ public class Monster {
                     if (p.getShoots().size() > i) {
                         p.getShoots().remove(i);
                     }
-
-                    p.setPoints(p.getPoints() + 100);
-                    points.setText("Points: " + p.getPoints());
+                    if (flag == 1) {
+                        p.setPoints(p.getPoints() + 100);
+                        points.setText("Points: " + p.getPoints());
+                    }
                     break;
                 }
             }
         }
+        points.setText("Points: " + p.getPoints());
     }
 
     public void monstersMove(Player player1, Player player2) {
